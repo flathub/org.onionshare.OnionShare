@@ -77,11 +77,11 @@ modules:
         dest: src/golang.org/x/text
       - type: git
         url: https://gitlab.com/yawning/utls
-        commit: 2dd4f38ff9e07464eb2748cc017eac1355e42251
+        commit: f1bcf4b40e4596d0ccd1dbf8f3a9f4922f9759ca
         dest: src/gitlab.com/yawning/utls.git
       - type: git
         url: https://gitlab.com/yawning/obfs4
-        commit: f638c33f6c6f697498150d5f0dfbf26453759262
+        commit: e330d1b7024b4ab04f7d96cc1afc61325744fafc
         dest: src/gitlab.com/yawning/obfs4.git
       - type: git
         url: https://gitlab.com/yawning/bsaes
