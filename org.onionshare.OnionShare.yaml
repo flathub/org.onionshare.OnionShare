@@ -42,8 +42,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: 57ded091e8bcdcebb0013fe7ef4a4439827cb169358c7874fd05fa00d813e227
-        url: https://dist.torproject.org/tor-0.4.5.8.tar.gz
+        sha256: ff665ce121b2952110bd98b9c8741b5593bf6c01ac09033ad848ed92c2510f9a
+        url: https://dist.torproject.org/tor-0.4.6.7.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -110,8 +110,8 @@ modules:
       - cd desktop/src && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: git
-        url: https://github.com/micahflee/onionshare.git
-        tag: v2.3.2
+        url: https://github.com/onionshare/onionshare.git
+        tag: v2.3.3
     modules:
       - name: python3-qrcode
         buildsystem: simple
@@ -128,8 +128,8 @@ modules:
           - cd cli && python3 setup.py install --prefix=${FLATPAK_DEST}
         sources:
           - type: git
-            url: https://github.com/micahflee/onionshare.git
-            tag: v2.3.2
+            url: https://github.com/onionshare/onionshare.git
+            tag: v2.3.3
         modules:
           - name: poetry-deps
             buildsystem: simple
