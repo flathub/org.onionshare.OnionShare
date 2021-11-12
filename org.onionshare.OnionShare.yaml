@@ -42,8 +42,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: ff665ce121b2952110bd98b9c8741b5593bf6c01ac09033ad848ed92c2510f9a
-        url: https://dist.torproject.org/tor-0.4.6.7.tar.gz
+        sha256: 15ce1a37b4cc175b07761e00acdcfa2c08f0d23d6c3ab9c97c464bd38cc5476a
+        url: https://dist.torproject.org/tor-0.4.6.8.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -57,48 +57,231 @@ modules:
       env:
         GOBIN: "/app/bin/"
     build-commands:
-      - ". /usr/lib/sdk/golang/enable.sh; GO111MODULE=off GOPATH=$PWD go install gitlab.com/yawning/obfs4.git/obfs4proxy"
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off;
+      go install gitlab.com/yawning/obfs4.git/obfs4proxy"
     sources:
       - type: git
         url: https://go.googlesource.com/net
-        commit: 5f55cee0dc0dc168ce29222f077fe7fcd4be72c5
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
         dest: src/golang.org/x/net
       - type: git
         url: https://go.googlesource.com/crypto
-        commit: 5ea612d1eb830b38bc4e914e37f55311eb58adce
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
         dest: src/golang.org/x/crypto
       - type: git
-        url: https://go.googlesource.com/sys
-        commit: 9a76102bfb4322425a1228caa377974426e82c84
-        dest: src/golang.org/x/sys
-      - type: git
         url: https://go.googlesource.com/text
-        commit: 8f690f22cf1c026c950adddf3d45258bfd0912f0
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
         dest: src/golang.org/x/text
       - type: git
-        url: https://gitlab.com/yawning/utls
-        commit: f1bcf4b40e4596d0ccd1dbf8f3a9f4922f9759ca
-        dest: src/gitlab.com/yawning/utls.git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
       - type: git
         url: https://gitlab.com/yawning/obfs4
         commit: e330d1b7024b4ab04f7d96cc1afc61325744fafc
         dest: src/gitlab.com/yawning/obfs4.git
       - type: git
+        url: https://gitlab.com/yawning/utls
+        commit: f1bcf4b40e4596d0ccd1dbf8f3a9f4922f9759ca
+        dest: src/gitlab.com/yawning/utls.git
+      - type: git
         url: https://gitlab.com/yawning/bsaes
         commit: 0a714cd429ec754482b4001e918db30cd2094405
         dest: src/gitlab.com/yawning/bsaes.git
       - type: git
-        url: https://github.com/dchest/siphash
-        commit: a21c2e7914a8fe0db087fa007cbe804967665dfc
-        dest: src/github.com/dchest/siphash
+        url: https://git.torproject.org/pluggable-transports/goptlib
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
+        dest: src/git.torproject.org/pluggable-transports/goptlib.git
       - type: git
         url: https://github.com/dsnet/compress
-        commit: da652975a8eea9fa0735aba8056747a751db0bd3
+        commit: f66993602bf5da07ef49d35b08e7264ae9fe2b6e
         dest: src/github.com/dsnet/compress
       - type: git
+        url: https://github.com/dchest/siphash
+        commit: 991656ee3840f823396c2eb7f4a70d65dac06832
+        dest: src/github.com/dchest/siphash
+  - name: meek-client
+    buildsystem: simple
+    build-options:
+      env:
+        GOBIN: "/app/bin/"
+      build-args:
+      - "--share=network"
+    build-commands:
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off;
+      go install git.torproject.org/pluggable-transports/meek.git/meek-client"
+    sources:
+      - type: git
+        url: https://go.googlesource.com/net
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
+        dest: src/golang.org/x/net
+      - type: git
+        url: https://go.googlesource.com/crypto
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
+        dest: src/golang.org/x/crypto
+      - type: git
+        url: https://go.googlesource.com/text
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
+        dest: src/golang.org/x/text
+      - type: git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
+      - type: git
         url: https://git.torproject.org/pluggable-transports/goptlib
-        commit: 781a46c66d2ddbc3509354ae7f1fccab74cb9927
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
         dest: src/git.torproject.org/pluggable-transports/goptlib.git
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/meek
+        commit: 6600c52acb7979b08dd0916a7a779dd0e5dde0b0
+        dest: src/git.torproject.org/pluggable-transports/meek.git
+      - type: git
+        url: https://github.com/refraction-networking/utls
+        commit: 0b2885c8c0d4467cfe98136748a9d011d0b8fff0
+        dest: src/github.com/refraction-networking/utls
+  - name: snowflake-client
+    buildsystem: simple
+    build-options:
+      env:
+        GOBIN: "/app/bin/"
+      build-args:
+      - "--share=network"
+    build-commands:
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off;
+      go install git.torproject.org/pluggable-transports/snowflake.git/client"
+    sources:
+      - type: git
+        url: https://go.googlesource.com/net
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
+        dest: src/golang.org/x/net
+      - type: git
+        url: https://go.googlesource.com/crypto
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
+        dest: src/golang.org/x/crypto
+      - type: git
+        url: https://go.googlesource.com/text
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
+        dest: src/golang.org/x/text
+      - type: git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
+      - type: git
+        url: https://go.googlesource.com/xerrors
+        commit: 5ec99f83aff198f5fbd629d6c8d8eb38a04218ca
+        dest: src/golang.org/x/xerrors
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/goptlib
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
+        dest: src/git.torproject.org/pluggable-transports/goptlib.git
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/snowflake
+        commit: ead5a960d7fa19dc890ccbfc0765c5ab6629eaa9
+        dest: src/git.torproject.org/pluggable-transports/snowflake.git
+      - type: git
+        url: https://github.com/templexxx/xorsimd
+        commit: e2f34adfb57b524164fc712df2fcfd991ed0ccad
+        dest: src/github.com/templexxx/xorsimd
+      - type: git
+        url: https://github.com/templexxx/cpu
+        commit: 98168dcec14af3f8700bf309afe503bfe936e9f2
+        dest: src/github.com/templexxx/cpu
+      - type: git
+        url: https://github.com/google/uuid
+        commit: 44b5fee7c49cf3bcdf723f106b36d56ef13ccc88
+        dest: src/github.com/google/uuid
+      - type: git
+        url: https://github.com/pion/udp
+        commit: 68c2d469b1ffc77a8addab02c1e45c93b5d0071d
+        dest: src/github.com/pion/udp
+      - type: git
+        url: https://github.com/pion/dtls
+        commit: e4d311c89ca1b77c9fe928e6cbfc508c959a3e73
+        dest: src/github.com/pion/dtls
+      - type: git
+        url: https://github.com/pion/rtp
+        commit: 1bb23f70af626f56c785a0e1615da871f5a03129
+        dest: src/github.com/pion/rtp
+      - type: git
+        url: https://github.com/pion/stun
+        commit: fa0355cc10e886da31cdfffe5c67cc23d345bbdc
+        dest: src/github.com/pion/stun
+      - type: git
+        url: https://github.com/pion/randutil
+        commit: 3e7aefb6fd280d89fca72f1596348f1939525187
+        dest: src/github.com/pion/randutil
+      - type: git
+        url: https://github.com/pion/srtp
+        commit: 1d7627ee3ca0c5f9f3943d6fe92295dc0a2b8e69
+        dest: src/github.com/pion/srtp
+      - type: git
+        url: https://github.com/pion/sctp
+        commit: fd9945b6f0fe8785677b18df7ce3e9ec78f9d451
+        dest: src/github.com/pion/sctp
+      - type: git
+        url: https://github.com/pion/transport
+        commit: 33608e46f9f1fb5af237d9cf0df6126fa1b6b206
+        dest: src/github.com/pion/transport
+      - type: git
+        url: https://github.com/pion/logging
+        commit: b0e968691909fdc8f198d1be221624b74b397fa6
+        dest: src/github.com/pion/logging
+      - type: git
+        url: https://github.com/pion/datachannel
+        commit: 74e13972527c0130d4245897fef9c300a091b14b
+        dest: src/github.com/pion/datachannel
+      - type: git
+        url: https://github.com/pion/interceptor
+        commit: 75c3df4712798c9e6fbec8a41059cc5b2913c032
+        dest: src/github.com/pion/interceptor
+      - type: git
+        url: https://github.com/pion/ice
+        commit: d5db22342061ee429c247141700b1e02e73acf54
+        dest: src/github.com/pion/ice
+      - type: git
+        url: https://github.com/pion/webrtc
+        commit: 635bfd9cad37eff2d2b7004e303ca4d509b8de17
+        dest: src/github.com/pion/webrtc
+      - type: git
+        url: https://github.com/pion/mdns
+        commit: 9db0fe207a1804f909cd53dd8f6cc36311ea65d6
+        dest: src/github.com/pion/mdns
+      - type: git
+        url: https://github.com/pion/turn
+        commit: 72ffd594f7c6104b5680a4fea5651928e3b6ddb4
+        dest: src/github.com/pion/turn
+      - type: git
+        url: https://github.com/pion/rtcp
+        commit: 516927b4081bb24ad1e2778d4627f90529e3105e
+        dest: src/github.com/pion/rtcp
+      - type: git
+        url: https://github.com/pion/sdp
+        commit: 9f8ec15f7bbb128c4625b3c07ab7923831533518
+        dest: src/github.com/pion/sdp
+      - type: git
+        url: https://github.com/tjfoc/gmsm
+        commit: fdaa5ff368db5ce62bb672fc424b23f8923858dc
+        dest: src/github.com/tjfoc/gmsm
+      - type: git
+        url: https://github.com/xtaci/kcp-go
+        commit: bd59cf8a523bbf67e55024a164d419a32de9de39
+        dest: src/github.com/xtaci/kcp-go
+      - type: git
+        url: https://github.com/xtaci/smux
+        commit: '09e2c01560df5aaaed50e48e77547858e2623498'
+        dest: src/github.com/xtaci/smux
+      - type: git
+        url: https://github.com/klauspost/cpuid
+        commit: cffd0d4c86d45f8de353e162651c92fa263e845d
+        dest: src/github.com/klauspost/cpuid
+      - type: git
+        url: https://github.com/klauspost/reedsolomon
+        commit: 0eef97bb02ee165a0d7b42a5989502bfa40f6ba0
+        dest: src/github.com/klauspost/reedsolomon
+      - type: git
+        url: https://github.com/pkg/errors
+        commit: 5dd12d0cfe7f152f80558d591504ce685299311e
+        dest: src/github.com/pkg/errors
   - name: onionshare
     buildsystem: simple
     ensure-writable:
@@ -111,7 +294,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/onionshare/onionshare.git
-        tag: v2.4
+        branch: develop
     modules:
       - name: python3-qrcode
         buildsystem: simple
@@ -129,7 +312,7 @@ modules:
         sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
-            tag: v2.4
+            branch: develop
         modules:
           - name: stem
             buildsystem: simple
