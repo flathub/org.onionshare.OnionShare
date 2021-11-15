@@ -311,22 +311,11 @@ modules:
             url: https://github.com/onionshare/onionshare.git
             branch: 1459_linux_packaging
         modules:
-          - name: stem
-            buildsystem: simple
-            build-commands:
-              - >-
-                pip3 install --no-index --find-links="file://${PWD}"
-                --prefix=${FLATPAK_DEST} stem
-            sources:
-              - type: file
-                url: >-
-                  https://onionshare.org/dist/2.4/stem-1.8.1-py3-none-any.whl
-                sha256: 604acb3441e4b29cfe139d6e08b89fdd65aaee7b959a5ae7d91f3e322efde3bf
           - name: poetry-deps
             buildsystem: simple
             build-commands:
               - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST}
-                bidict certifi cffi charset-normalizer click colorama dnspython eventlet
+                bidict cepa certifi cffi charset-normalizer click colorama dnspython eventlet
                 flask flask-socketio greenlet idna itsdangerous jinja2 markupsafe psutil pycparser
                 pynacl pysocks python-engineio python-socketio requests six unidecode urllib3
                 werkzeug setuptools wheel
@@ -334,9 +323,9 @@ modules:
               - type: file
                 url: https://files.pythonhosted.org/packages/f1/04/ac51cac8d2b792a8de216c775248a371bf1da25f11d919f3528975288e21/bidict-0.21.4-py3-none-any.whl
                 sha256: 3ac67daa353ecf853a1df9d3e924f005e729227a60a8dbada31a4c31aba7f654
-              # - type: file
-              #   url: https://files.pythonhosted.org/packages/95/5d/24f213fe71379f70967a478000c0b1fac9f014fef498d6943046198138d3/cepa-1.8.2.tar.gz
-              #   sha256: 6cc192b76c32fe5ae45005b2d904cfa704d47c565c22af291e9f9e715045bb65
+              - type: file
+                url: https://files.pythonhosted.org/packages/6f/84/0379c1160237dccb38876a2439e0e56147276273d3e9e9305b3c0dc14b01/cepa-1.8.3.tar.gz
+                sha256: 1dc6f0b324d37a2ed2ca274648ece8fd2c96a1d2f440f58c0ca17afd4b5ede7a
               - type: file
                 url: https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
                 sha256: d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569
