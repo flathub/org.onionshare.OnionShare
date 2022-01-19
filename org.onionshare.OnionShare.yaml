@@ -15,7 +15,6 @@ finish-args:
   - "--socket=fallback-x11"
   - "--talk-name=org.freedesktop.Notifications"
   - "--talk-name=org.freedesktop.secrets"
-  - "--filesystem=home:ro"
   - "--filesystem=~/OnionShare:create"
   - "--filesystem=xdg-config/onionshare:create"
 cleanup:
@@ -42,8 +41,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: ff665ce121b2952110bd98b9c8741b5593bf6c01ac09033ad848ed92c2510f9a
-        url: https://dist.torproject.org/tor-0.4.6.7.tar.gz
+        sha256: c7e93380988ce20b82aa19c06cdb2f10302b72cfebec7c15b5b96bcfc94ca9a9
+        url: https://dist.torproject.org/tor-0.4.6.9.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -57,61 +56,238 @@ modules:
       env:
         GOBIN: "/app/bin/"
     build-commands:
-      - ". /usr/lib/sdk/golang/enable.sh; GO111MODULE=off GOPATH=$PWD go install gitlab.com/yawning/obfs4.git/obfs4proxy"
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off; go install gitlab.com/yawning/obfs4.git/obfs4proxy"
     sources:
       - type: git
         url: https://go.googlesource.com/net
-        commit: 5f55cee0dc0dc168ce29222f077fe7fcd4be72c5
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
         dest: src/golang.org/x/net
       - type: git
         url: https://go.googlesource.com/crypto
-        commit: 5ea612d1eb830b38bc4e914e37f55311eb58adce
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
         dest: src/golang.org/x/crypto
       - type: git
-        url: https://go.googlesource.com/sys
-        commit: 9a76102bfb4322425a1228caa377974426e82c84
-        dest: src/golang.org/x/sys
-      - type: git
         url: https://go.googlesource.com/text
-        commit: 8f690f22cf1c026c950adddf3d45258bfd0912f0
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
         dest: src/golang.org/x/text
       - type: git
-        url: https://gitlab.com/yawning/utls
-        commit: f1bcf4b40e4596d0ccd1dbf8f3a9f4922f9759ca
-        dest: src/gitlab.com/yawning/utls.git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
       - type: git
         url: https://gitlab.com/yawning/obfs4
         commit: e330d1b7024b4ab04f7d96cc1afc61325744fafc
         dest: src/gitlab.com/yawning/obfs4.git
       - type: git
+        url: https://gitlab.com/yawning/utls
+        commit: f1bcf4b40e4596d0ccd1dbf8f3a9f4922f9759ca
+        dest: src/gitlab.com/yawning/utls.git
+      - type: git
         url: https://gitlab.com/yawning/bsaes
         commit: 0a714cd429ec754482b4001e918db30cd2094405
         dest: src/gitlab.com/yawning/bsaes.git
       - type: git
-        url: https://github.com/dchest/siphash
-        commit: a21c2e7914a8fe0db087fa007cbe804967665dfc
-        dest: src/github.com/dchest/siphash
+        url: https://git.torproject.org/pluggable-transports/goptlib
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
+        dest: src/git.torproject.org/pluggable-transports/goptlib.git
       - type: git
         url: https://github.com/dsnet/compress
-        commit: da652975a8eea9fa0735aba8056747a751db0bd3
+        commit: f66993602bf5da07ef49d35b08e7264ae9fe2b6e
         dest: src/github.com/dsnet/compress
       - type: git
+        url: https://github.com/dchest/siphash
+        commit: 991656ee3840f823396c2eb7f4a70d65dac06832
+        dest: src/github.com/dchest/siphash
+  - name: meek-client
+    buildsystem: simple
+    build-options:
+      env:
+        GOBIN: "/app/bin/"
+    build-commands:
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off; go install git.torproject.org/pluggable-transports/meek.git/meek-client"
+    sources:
+      - type: git
+        url: https://go.googlesource.com/net
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
+        dest: src/golang.org/x/net
+      - type: git
+        url: https://go.googlesource.com/crypto
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
+        dest: src/golang.org/x/crypto
+      - type: git
+        url: https://go.googlesource.com/text
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
+        dest: src/golang.org/x/text
+      - type: git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
+      - type: git
         url: https://git.torproject.org/pluggable-transports/goptlib
-        commit: 781a46c66d2ddbc3509354ae7f1fccab74cb9927
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
         dest: src/git.torproject.org/pluggable-transports/goptlib.git
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/meek
+        commit: 6600c52acb7979b08dd0916a7a779dd0e5dde0b0
+        dest: src/git.torproject.org/pluggable-transports/meek.git
+      - type: git
+        url: https://github.com/refraction-networking/utls
+        commit: 0b2885c8c0d4467cfe98136748a9d011d0b8fff0
+        dest: src/github.com/refraction-networking/utls
+  - name: snowflake-client
+    buildsystem: simple
+    build-options:
+      env:
+        GOBIN: "/app/bin/"
+    build-commands:
+      - ". /usr/lib/sdk/golang/enable.sh; export GOPATH=$PWD; export GO111MODULE=off; go install git.torproject.org/pluggable-transports/snowflake.git/client"
+      - "mv /app/bin/client /app/bin/snowflake-client"
+    sources:
+      - type: git
+        url: https://go.googlesource.com/net
+        commit: 69e39bad7dc2bbb411fa35755c46020969029fa7
+        dest: src/golang.org/x/net
+      - type: git
+        url: https://go.googlesource.com/crypto
+        commit: ceb1ce70b4faafeeb5b3f23cc83f09b39a4f3f1d
+        dest: src/golang.org/x/crypto
+      - type: git
+        url: https://go.googlesource.com/text
+        commit: 18b340fc7af22495828ffbe71e9f9e22583bc7a9
+        dest: src/golang.org/x/text
+      - type: git
+        url: https://go.googlesource.com/sys
+        commit: faf0a1b62c6b439486fd1d914d8185627b99d387
+        dest: src/golang.org/x/sys
+      - type: git
+        url: https://go.googlesource.com/xerrors
+        commit: 5ec99f83aff198f5fbd629d6c8d8eb38a04218ca
+        dest: src/golang.org/x/xerrors
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/goptlib
+        commit: 13b7b3552e1eef32e4d8a2a7813f22488f91dc09
+        dest: src/git.torproject.org/pluggable-transports/goptlib.git
+      - type: git
+        url: https://git.torproject.org/pluggable-transports/snowflake
+        commit: ead5a960d7fa19dc890ccbfc0765c5ab6629eaa9
+        dest: src/git.torproject.org/pluggable-transports/snowflake.git
+      - type: git
+        url: https://github.com/templexxx/xorsimd
+        commit: e2f34adfb57b524164fc712df2fcfd991ed0ccad
+        dest: src/github.com/templexxx/xorsimd
+      - type: git
+        url: https://github.com/templexxx/cpu
+        commit: 98168dcec14af3f8700bf309afe503bfe936e9f2
+        dest: src/github.com/templexxx/cpu
+      - type: git
+        url: https://github.com/google/uuid
+        commit: 44b5fee7c49cf3bcdf723f106b36d56ef13ccc88
+        dest: src/github.com/google/uuid
+      - type: git
+        url: https://github.com/pion/udp
+        commit: 68c2d469b1ffc77a8addab02c1e45c93b5d0071d
+        dest: src/github.com/pion/udp
+      - type: git
+        url: https://github.com/pion/dtls
+        commit: e4d311c89ca1b77c9fe928e6cbfc508c959a3e73
+        dest: src/github.com/pion/dtls
+      - type: git
+        url: https://github.com/pion/rtp
+        commit: 1bb23f70af626f56c785a0e1615da871f5a03129
+        dest: src/github.com/pion/rtp
+      - type: git
+        url: https://github.com/pion/stun
+        commit: fa0355cc10e886da31cdfffe5c67cc23d345bbdc
+        dest: src/github.com/pion/stun
+      - type: git
+        url: https://github.com/pion/randutil
+        commit: 3e7aefb6fd280d89fca72f1596348f1939525187
+        dest: src/github.com/pion/randutil
+      - type: git
+        url: https://github.com/pion/srtp
+        commit: 1d7627ee3ca0c5f9f3943d6fe92295dc0a2b8e69
+        dest: src/github.com/pion/srtp
+      - type: git
+        url: https://github.com/pion/sctp
+        commit: fd9945b6f0fe8785677b18df7ce3e9ec78f9d451
+        dest: src/github.com/pion/sctp
+      - type: git
+        url: https://github.com/pion/transport
+        commit: 33608e46f9f1fb5af237d9cf0df6126fa1b6b206
+        dest: src/github.com/pion/transport
+      - type: git
+        url: https://github.com/pion/logging
+        commit: b0e968691909fdc8f198d1be221624b74b397fa6
+        dest: src/github.com/pion/logging
+      - type: git
+        url: https://github.com/pion/datachannel
+        commit: 74e13972527c0130d4245897fef9c300a091b14b
+        dest: src/github.com/pion/datachannel
+      - type: git
+        url: https://github.com/pion/interceptor
+        commit: 75c3df4712798c9e6fbec8a41059cc5b2913c032
+        dest: src/github.com/pion/interceptor
+      - type: git
+        url: https://github.com/pion/ice
+        commit: d5db22342061ee429c247141700b1e02e73acf54
+        dest: src/github.com/pion/ice
+      - type: git
+        url: https://github.com/pion/webrtc
+        commit: 635bfd9cad37eff2d2b7004e303ca4d509b8de17
+        dest: src/github.com/pion/webrtc
+      - type: git
+        url: https://github.com/pion/mdns
+        commit: 9db0fe207a1804f909cd53dd8f6cc36311ea65d6
+        dest: src/github.com/pion/mdns
+      - type: git
+        url: https://github.com/pion/turn
+        commit: 72ffd594f7c6104b5680a4fea5651928e3b6ddb4
+        dest: src/github.com/pion/turn
+      - type: git
+        url: https://github.com/pion/rtcp
+        commit: 516927b4081bb24ad1e2778d4627f90529e3105e
+        dest: src/github.com/pion/rtcp
+      - type: git
+        url: https://github.com/pion/sdp
+        commit: 9f8ec15f7bbb128c4625b3c07ab7923831533518
+        dest: src/github.com/pion/sdp
+      - type: git
+        url: https://github.com/tjfoc/gmsm
+        commit: fdaa5ff368db5ce62bb672fc424b23f8923858dc
+        dest: src/github.com/tjfoc/gmsm
+      - type: git
+        url: https://github.com/xtaci/kcp-go
+        commit: bd59cf8a523bbf67e55024a164d419a32de9de39
+        dest: src/github.com/xtaci/kcp-go
+      - type: git
+        url: https://github.com/xtaci/smux
+        commit: '09e2c01560df5aaaed50e48e77547858e2623498'
+        dest: src/github.com/xtaci/smux
+      - type: git
+        url: https://github.com/klauspost/cpuid
+        commit: cffd0d4c86d45f8de353e162651c92fa263e845d
+        dest: src/github.com/klauspost/cpuid
+      - type: git
+        url: https://github.com/klauspost/reedsolomon
+        commit: 0eef97bb02ee165a0d7b42a5989502bfa40f6ba0
+        dest: src/github.com/klauspost/reedsolomon
+      - type: git
+        url: https://github.com/pkg/errors
+        commit: 5dd12d0cfe7f152f80558d591504ce685299311e
+        dest: src/github.com/pkg/errors
   - name: onionshare
     buildsystem: simple
     ensure-writable:
       - easy-install.pth
     build-commands:
-      - cd desktop/src && python3 setup.py install --prefix=${FLATPAK_DEST}
-      - cd desktop/src && install -D -m0644 org.onionshare.OnionShare.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
-      - cd desktop/src && install -D -m0644 org.onionshare.OnionShare.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/org.onionshare.OnionShare.svg
-      - cd desktop/src && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - cd desktop && python3 setup.py install --prefix=${FLATPAK_DEST}
+      - cd desktop && install -D -m0644 org.onionshare.OnionShare.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
+      - cd desktop && install -D -m0644 org.onionshare.OnionShare.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/org.onionshare.OnionShare.svg
+      - cd desktop && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: git
         url: https://github.com/onionshare/onionshare.git
-        tag: v2.4
+        tag: v2.5
     modules:
       - name: python3-qrcode
         buildsystem: simple
@@ -120,8 +296,8 @@ modules:
           --prefix=${FLATPAK_DEST} "qrcode" --no-build-isolation
         sources:
         - type: file
-          url: https://files.pythonhosted.org/packages/19/d5/6c7d4e103d94364d067636417a77a6024219c58cd6e9f428ece9b5061ef9/qrcode-6.1.tar.gz
-          sha256: 505253854f607f2abf4d16092c61d4e9d511a3b4392e60bff957a68592b04369
+          url: https://files.pythonhosted.org/packages/94/9f/31f33cdf3cf8f98e64c42582fb82f39ca718264df61957f28b0bbb09b134/qrcode-7.3.1.tar.gz
+          sha256: 375a6ff240ca9bd41adc070428b5dfc1dcfbb0f2507f1ac848f6cded38956578
       - name: onionshare-cli
         buildsystem: simple
         build-commands:
@@ -129,188 +305,154 @@ modules:
         sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
-            tag: v2.4
+            tag: v2.5
         modules:
-          - name: stem
-            buildsystem: simple
-            build-commands:
-              - >-
-                pip3 install --no-index --find-links="file://${PWD}"
-                --prefix=${FLATPAK_DEST} stem
-            sources:
-              - type: file
-                url: >-
-                  https://onionshare.org/dist/2.4/stem-1.8.1-py3-none-any.whl
-                sha256: 604acb3441e4b29cfe139d6e08b89fdd65aaee7b959a5ae7d91f3e322efde3bf
           - name: poetry-deps
             buildsystem: simple
             build-commands:
-              - >-
-                pip3 install --no-index --find-links="file://${PWD}"
-                --prefix=${FLATPAK_DEST} atomicwrites attrs bidict certifi cffi
-                charset-normalizer click colorama dnspython eventlet flask flask-socketio
-                greenlet idna importlib-metadata iniconfig itsdangerous jinja2 markupsafe
-                packaging pluggy psutil py pycparser pynacl pyparsing pysocks pytest
-                python-engineio python-socketio requests six toml typing-extensions
-                unidecode urllib3 werkzeug zipp setuptools wheel
+              - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST}
+                atomicwrites attrs bidict cepa certifi cffi charset-normalizer click colorama
+                dnspython eventlet flask flask-socketio gevent gevent-websocket greenlet idna
+                importlib-metadata iniconfig itsdangerous jinja2 markupsafe packaging pluggy psutil
+                py pycparser pynacl pyparsing pysocks pytest python-engineio python-socketio requests
+                six toml typing-extensions unidecode urllib3 werkzeug zipp zope.event zope.interface
+                setuptools wheel Cython
             sources:
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/2c/a0/da5f49008ec6e9a658dbf5d7310a4debd397bce0b4db03cf8a410066bb87/atomicwrites-1.4.0-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/2c/a0/da5f49008ec6e9a658dbf5d7310a4debd397bce0b4db03cf8a410066bb87/atomicwrites-1.4.0-py2.py3-none-any.whl
                 sha256: 6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/20/a9/ba6f1cd1a1517ff022b35acd6a7e4246371dfab08b8e42b829b6d07913cc/attrs-21.2.0-py2.py3-none-any.whl
-                sha256: 149e90d6d8ac20db7a955ad60cf0e6881a3f20d37096140088356da6c716b0b1
+                url: https://files.pythonhosted.org/packages/be/be/7abce643bfdf8ca01c48afa2ddf8308c2308b0c3b239a44e57d020afa0ef/attrs-21.4.0-py2.py3-none-any.whl
+                sha256: 2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/f2/14/4b84e724b01f87625a645c30ff5b3f2e2877e86b792a1eb680b948e13a7b/bidict-0.21.3-py3-none-any.whl
-                sha256: 2cce0d01eb3db9b3fa85db501c00aaa3389ee4cab7ef82178604552dfa943a1b
+                url: https://files.pythonhosted.org/packages/f1/04/ac51cac8d2b792a8de216c775248a371bf1da25f11d919f3528975288e21/bidict-0.21.4-py3-none-any.whl
+                sha256: 3ac67daa353ecf853a1df9d3e924f005e729227a60a8dbada31a4c31aba7f654
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/05/1b/0a0dece0e8aa492a6ec9e4ad2fe366b511558cdc73fd3abc82ba7348e875/certifi-2021.5.30-py2.py3-none-any.whl
-                sha256: 50b1e4f8446b06f41be7dd6338db18e0990601dce795c2b1686458aa7e8fa7d8
+                url: https://files.pythonhosted.org/packages/6f/84/0379c1160237dccb38876a2439e0e56147276273d3e9e9305b3c0dc14b01/cepa-1.8.3.tar.gz
+                sha256: 1dc6f0b324d37a2ed2ca274648ece8fd2c96a1d2f440f58c0ca17afd4b5ede7a
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/2e/92/87bb61538d7e60da8a7ec247dc048f7671afe17016cd0008b3b710012804/cffi-1.14.6.tar.gz
-                sha256: c9a875ce9d7fe32887784274dd533c57909b7b1dcadcc128a2ac21331a9765dd
+                url: https://files.pythonhosted.org/packages/37/45/946c02767aabb873146011e665728b680884cd8fe70dde973c640e45b775/certifi-2021.10.8-py2.py3-none-any.whl
+                sha256: d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/3f/65/69e6754102dcd018a0f29e4db673372eb323ee504431125ab6c9109cb21c/charset_normalizer-2.0.6-py3-none-any.whl
-                sha256: 5d209c0a931f215cee683b6445e2d77677e7e75e159f78def0db09d68fafcaa6
+                url: https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz
+                sha256: 920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/d2/3d/fa76db83bf75c4f8d338c2fd15c8d33fdd7ad23a9b5e57eb6c5de26b430e/click-7.1.2-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/84/3e/1037abe6498e65d645ce7a22d3402605d49a3b2c7f20c3abb027760da4f0/charset_normalizer-2.0.10-py3-none-any.whl
+                sha256: cb957888737fc0bbcd78e3df769addb41fd1ff8cf950dc9e7ad7793f1bf44455
+              - type: file
+                url: https://files.pythonhosted.org/packages/d2/3d/fa76db83bf75c4f8d338c2fd15c8d33fdd7ad23a9b5e57eb6c5de26b430e/click-7.1.2-py2.py3-none-any.whl
                 sha256: dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/44/98/5b86278fbbf250d239ae0ecb724f8572af1c91f4a11edf4d36a206189440/colorama-0.4.4-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/44/98/5b86278fbbf250d239ae0ecb724f8572af1c91f4a11edf4d36a206189440/colorama-0.4.4-py2.py3-none-any.whl
                 sha256: 9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/f5/2d/ae9e172b4e5e72fa4b3cfc2517f38b602cc9ba31355f9669c502b4e9c458/dnspython-2.1.0-py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/f5/2d/ae9e172b4e5e72fa4b3cfc2517f38b602cc9ba31355f9669c502b4e9c458/dnspython-2.1.0-py3-none-any.whl
                 sha256: 95d12f6ef0317118d2a1a6fc49aac65ffec7eb8087474158f42f26a639135216
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/20/49/aaf5f307bdf61d1d49872c1eddf4e5211c31949aa719b0b7bd95a621d3fb/eventlet-0.32.0-py2.py3-none-any.whl
-                sha256: a3a67b02f336e97a1894b277bc33b695831525758781eb024f4da00e75ce5e25
+                url: https://files.pythonhosted.org/packages/56/f5/5511f43e6908b13645387e790ce85e08c75f8298419917da72906fc51da8/eventlet-0.33.0-py2.py3-none-any.whl
+                sha256: d10a8fcc9e33381905d9873303fde96ebe3541c03fb795055d2c7347dce0639c
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/e8/6d/994208daa354f68fd89a34a8bafbeaab26fda84e7af1e35bdaed02b667e6/Flask-1.1.4-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/e8/6d/994208daa354f68fd89a34a8bafbeaab26fda84e7af1e35bdaed02b667e6/Flask-1.1.4-py2.py3-none-any.whl
                 sha256: c34f04500f2cbbea882b1acb02002ad6fe6b7ffa64a6164577995657f50aed22
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/05/ff/4de07d38fd2a4fb6326d96a2ecf9fb48026c3f064bc600f33fde0dc1c891/Flask_SocketIO-5.0.1-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/05/ff/4de07d38fd2a4fb6326d96a2ecf9fb48026c3f064bc600f33fde0dc1c891/Flask_SocketIO-5.0.1-py2.py3-none-any.whl
                 sha256: 5d9a4438bafd806c5a3b832e74b69758781a8ee26fb6c9b1dbdda9b4fced432e
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/72/7e/d8586068d47adba73afc085249712bd266cd7ffbf27d8bc260c33e9d6133/greenlet-1.1.1.tar.gz
-                sha256: c0f22774cd8294078bdf7392ac73cf00bfa1e5e0ed644bd064fdabc5f2a2f481
+                url: https://files.pythonhosted.org/packages/c8/18/631398e45c109987f2d8e57f3adda161cc5ff2bd8738ca830c3a2dd41a85/gevent-21.12.0.tar.gz
+                sha256: f48b64578c367b91fa793bf8eaaaf4995cb93c8bc45860e473bf868070ad094e
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/d7/77/ff688d1504cdc4db2a938e2b7b9adee5dd52e34efbd2431051efc9984de9/idna-3.2-py3-none-any.whl
-                sha256: 14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a
+                url: https://files.pythonhosted.org/packages/7b/84/2dc373eb6493e00c884cc11e6c059ec97abae2678d42f06bf780570b0193/gevent_websocket-0.10.1-py3-none-any.whl
+                sha256: 17b67d91282f8f4c973eba0551183fc84f56f1c90c8f6b6b30256f31f66f5242
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/71/c2/cb1855f0b2a0ae9ccc9b69f150a7aebd4a8d815bd951e74621c4154c52a8/importlib_metadata-4.8.1-py3-none-any.whl
-                sha256: b618b6d2d5ffa2f16add5697cf57a46c76a56229b0ed1c438322e4e95645bd15
+                url: https://files.pythonhosted.org/packages/0c/10/754e21b5bea89d0e73f99d60c83754df7cc64db74f47d98ab187669ce341/greenlet-1.1.2.tar.gz
+                sha256: e30f5ea4ae2346e62cedde8794a56858a67b878dd79f7df76a0767e356b1744a
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3/iniconfig-1.1.1-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/04/a2/d918dcd22354d8958fe113e1a3630137e0fc8b44859ade3063982eacd2a4/idna-3.3-py3-none-any.whl
+                sha256: 84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff
+              - type: file
+                url: https://files.pythonhosted.org/packages/a0/a1/b153a0a4caf7a7e3f15c2cd56c7702e2cf3d89b1b359d1f1c5e59d68f4ce/importlib_metadata-4.8.3-py3-none-any.whl
+                sha256: 65a9576a5b2d58ca44d133c42a241905cc45e34d2c06fd5ba2bafa221e5d7b5e
+              - type: file
+                url: https://files.pythonhosted.org/packages/9b/dd/b3c12c6d707058fa947864b67f0c4e0c39ef8610988d7baea9578f3c48f3/iniconfig-1.1.1-py2.py3-none-any.whl
                 sha256: 011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/76/ae/44b03b253d6fade317f32c24d100b3b35c2239807046a4c953c7b89fa49e/itsdangerous-1.1.0-py2.py3-none-any.whl
                 sha256: b12271b2047cb23eeb98c8b5622e2e5c5e9abd9784a153e9d8ef9cb4dd09d749
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/7e/c2/1eece8c95ddbc9b1aeb64f5783a9e07a286de42191b7204d67b7496ddf35/Jinja2-2.11.3-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/7e/c2/1eece8c95ddbc9b1aeb64f5783a9e07a286de42191b7204d67b7496ddf35/Jinja2-2.11.3-py2.py3-none-any.whl
                 sha256: 03e47ad063331dd6a3f04a43eddca8a966a26ba0c5b7207a9a9e4e08f1b29419
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/bf/10/ff66fea6d1788c458663a84d88787bae15d45daa16f6b3ef33322a51fc7e/MarkupSafe-2.0.1.tar.gz
+                url: https://files.pythonhosted.org/packages/bf/10/ff66fea6d1788c458663a84d88787bae15d45daa16f6b3ef33322a51fc7e/MarkupSafe-2.0.1.tar.gz
                 sha256: 594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/3c/77/e2362b676dc5008d81be423070dd9577fa03be5da2ba1105811900fda546/packaging-21.0-py3-none-any.whl
-                sha256: c86254f9220d55e31cc94d69bade760f0847da8000def4dfe1c6b872fd14ff14
+                url: https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl
+                sha256: ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/9e/01/f38e2ff29715251cf25532b9082a1589ab7e4f571ced434f98d0139336dc/pluggy-1.0.0-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/9e/01/f38e2ff29715251cf25532b9082a1589ab7e4f571ced434f98d0139336dc/pluggy-1.0.0-py2.py3-none-any.whl
                 sha256: 74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/e1/b0/7276de53321c12981717490516b7e612364f2cb372ee8901bd4a66a000d7/psutil-5.8.0.tar.gz
-                sha256: 0c9ccb99ab76025f2f0bbecf341d4656e9c1351db8cc8a03ccd62e318ab4b5c6
+                url: https://files.pythonhosted.org/packages/47/b6/ea8a7728f096a597f0032564e8013b705aa992a0990becd773dcc4d7b4a7/psutil-5.9.0.tar.gz
+                sha256: 869842dbd66bb80c3217158e629d6fceaecc3a3166d3d1faee515b05dd26ca25
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/67/32/6fe01cfc3d1a27c92fdbcdfc3f67856da8cbadf0dd9f2e18055202b2dc62/py-1.10.0-py2.py3-none-any.whl
-                sha256: 3b80836aa6d1feeaa108e046da6423ab8f6ceda6468545ae8d02d9d58d18818a
+                url: https://files.pythonhosted.org/packages/f6/f0/10642828a8dfb741e5f3fbaac830550a518a775c7fff6f04a007259b0548/py-1.11.0-py2.py3-none-any.whl
+                sha256: 607c53218732647dff4acdfcd50cb62615cedf612e72d1724fb1a0cc6405b378
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/ae/e7/d9c3a176ca4b02024debf82342dab36efadfc5776f9c8db077e8f6e71821/pycparser-2.20-py2.py3-none-any.whl
-                sha256: 7582ad22678f0fcd81102833f60ef8d0e57288b6b5fb00323d101be910e35705
+                url: https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl
+                sha256: 8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/cf/5a/25aeb636baeceab15c8e57e66b8aa930c011ec1c035f284170cacb05025e/PyNaCl-1.4.0.tar.gz
-                sha256: 54e9a2c849c742006516ad56a88f5c74bf2ce92c9f67435187c3c5953b346505
+                url: https://files.pythonhosted.org/packages/a7/22/27582568be639dfe22ddb3902225f91f2f17ceff88ce80e4db396c8986da/PyNaCl-1.5.0.tar.gz
+                sha256: 8ac7448f09ab85811607bdd21ec2464495ac8b7c66d146bf545b0f08fb9220ba
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/8a/bb/488841f56197b13700afd5658fc279a2025a39e22449b7cf29864669b15d/pyparsing-2.4.7-py2.py3-none-any.whl
-                sha256: ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b
+                url: https://files.pythonhosted.org/packages/a0/34/895006117f6fce0b4de045c87e154ee4a20c68ec0a4c9a36d900888fb6bc/pyparsing-3.0.6-py3-none-any.whl
+                sha256: 04ff808a5b90911829c55c4e26f75fa5ca8a2f5f36aa3a51f68e27033341d3e4
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/8d/59/b4572118e098ac8e46e399a1dd0f2d85403ce8bbaad9ec79373ed6badaf9/PySocks-1.7.1-py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/8d/59/b4572118e098ac8e46e399a1dd0f2d85403ce8bbaad9ec79373ed6badaf9/PySocks-1.7.1-py3-none-any.whl
                 sha256: 2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/40/76/86f886e750b81a4357b6ed606b2bcf0ce6d6c27ad3c09ebf63ed674fc86e/pytest-6.2.5-py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/40/76/86f886e750b81a4357b6ed606b2bcf0ce6d6c27ad3c09ebf63ed674fc86e/pytest-6.2.5-py3-none-any.whl
                 sha256: 7310f8d27bc79ced999e760ca304d69f6ba6c6649c0b60fb0e04a4a77cacc134
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/b3/8f/08b886f7281b1d7045cebf447a6976ae2403c901e3c145acf3c8a31f93c2/python_engineio-4.2.1-py3-none-any.whl
-                sha256: f3ef9a2c048d08990f294c5f8991f6f162c3b12ecbd368baa0d90441de907d1c
+                url: https://files.pythonhosted.org/packages/ae/c4/f290dd7159c8f6605e8bc9b5a98f98f62d4cef872b82ea128b2a1221648e/python_engineio-4.3.1-py3-none-any.whl
+                sha256: 85986067cb9f7695347954d4e03491f7d45152c5428c07109a9707e04e8942cb
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/77/d2/2971b41d907f2e33b2551efbfce99dcff3b361bcfbcdc3b72d84e5a4f2d6/python_socketio-5.4.0-py3-none-any.whl
-                sha256: 7ed57f6c024abdfeb9b25c74c0c00ffc18da47d903e8d72deecb87584370d1fc
+                url: https://files.pythonhosted.org/packages/35/de/b1d30d0cc0ac01e8771985dc38b5078eab786345062d29bbb647eb3dcbf9/python_socketio-5.5.1-py3-none-any.whl
+                sha256: d0b98474064ac239a618649ca67f5288827705d36bd5f7615a473b37965baf61
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/92/96/144f70b972a9c0eabbd4391ef93ccd49d0f2747f4f6a2a2738e99e5adc65/requests-2.26.0-py2.py3-none-any.whl
-                sha256: 6c1246513ecd5ecd4528a0906f910e8f0f9c6b8ec72030dc9fd154dc1a6efd24
+                url: https://files.pythonhosted.org/packages/2d/61/08076519c80041bc0ffa1a8af0cbd3bf3e2b62af10435d269a9d0f40564d/requests-2.27.1-py2.py3-none-any.whl
+                sha256: f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl
                 sha256: 8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl
                 sha256: 806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/74/60/18783336cc7fcdd95dae91d73477830aa53f5d3181ae4fe20491d7fc3199/typing_extensions-3.10.0.2-py3-none-any.whl
-                sha256: f1d25edafde516b146ecd0613dabcc61409817af4766fbbcfb8d1ad4ec441a34
+                url: https://files.pythonhosted.org/packages/05/e4/baf0031e39cf545f0c9edd5b1a2ea12609b7fcba2d58e118b11753d68cf0/typing_extensions-4.0.1-py3-none-any.whl
+                sha256: 7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/e2/3a/3c35e04ea05724f29c77bf5c7a27cf0c80310483655bfdc2c1c5d1ab36b6/Unidecode-1.3.2-py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/e2/3a/3c35e04ea05724f29c77bf5c7a27cf0c80310483655bfdc2c1c5d1ab36b6/Unidecode-1.3.2-py3-none-any.whl
                 sha256: 215fe33c9d1c889fa823ccb66df91b02524eb8cc8c9c80f9c5b8129754d27829
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/af/f4/524415c0744552cce7d8bf3669af78e8a069514405ea4fcbd0cc44733744/urllib3-1.26.7-py2.py3-none-any.whl
-                sha256: c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844
+                url: https://files.pythonhosted.org/packages/4e/b8/f5a25b22e803f0578e668daa33ba3701bb37858ec80e08a150bd7d2cf1b1/urllib3-1.26.8-py2.py3-none-any.whl
+                sha256: 000ca7f471a233c2251c6c7023ee85305721bfdf18621ebff4fd17a8653427ed
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
+                url: https://files.pythonhosted.org/packages/cc/94/5f7079a0e00bd6863ef8f1da638721e9da21e5bacee597595b318f71d62e/Werkzeug-1.0.1-py2.py3-none-any.whl
                 sha256: 2de2a5db0baeae7b2d2664949077c2ac63fbd16d98da0ff71837f7d1dea3fd43
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/92/d9/89f433969fb8dc5b9cbdd4b4deb587720ec1aeb59a020cf15002b9593eef/zipp-3.5.0-py3-none-any.whl
-                sha256: 957cfda87797e389580cb8b9e3870841ca991e2125350677b2ca83a0e99390a3
+                url: https://files.pythonhosted.org/packages/bd/df/d4a4974a3e3957fd1c1fa3082366d7fff6e428ddb55f074bf64876f8e8ad/zipp-3.6.0-py3-none-any.whl
+                sha256: 9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/4e/2e/f8e006dbaaa46ed1e762c287585b92476deb8d3ccb79b720ed3b86bc6113/setuptools-58.1.0-py3-none-any.whl
-                sha256: 7324fd4b66efa05cdfc9c89174573a4410acc7848f318cc0565c7fb659dfdc81
+                url: https://files.pythonhosted.org/packages/9e/85/b45408c64f3b888976f1d5b37eed8d746b8d5729a66a49ec846fda27d371/zope.event-4.5.0-py2.py3-none-any.whl
+                sha256: 2666401939cdaa5f4e0c08cf7f20c9b21423b95e88f4675b1443973bdb080c42
               - type: file
-                url: >-
-                  https://files.pythonhosted.org/packages/04/80/cad93b40262f5d09f6de82adbee452fd43cdff60830b56a74c5930f7e277/wheel-0.37.0-py2.py3-none-any.whl
-                sha256: 21014b2bd93c6d0034b6ba5d35e4eb284340e09d63c59aef6fc14b0f346146fd
+                url: https://files.pythonhosted.org/packages/ae/58/e0877f58daa69126a5fb325d6df92b20b77431cd281e189c5ec42b722f58/zope.interface-5.4.0.tar.gz
+                sha256: 5dba5f530fec3f0988d83b78cc591b58c0b6eb8431a85edd1569a0539a8a5a0e
+              - type: file
+                url: https://files.pythonhosted.org/packages/eb/53/0dd4c7960579da8be13fa9b2c2591643d37f323e3d79f8bc8b1b6c8e6217/setuptools-60.5.0-py3-none-any.whl
+                sha256: 68eb94073fc486091447fcb0501efd6560a0e5a1839ba249e5ff3c4c93f05f90
+              - type: file
+                url: https://files.pythonhosted.org/packages/27/d6/003e593296a85fd6ed616ed962795b2f87709c3eee2bca4f6d0fe55c6d00/wheel-0.37.1-py2.py3-none-any.whl
+                sha256: 4bdcd7d840138086126cd09254dc6195fb4fc6f01c050a1d7236f2630db1d22a
+              - type: file
+                url: https://files.pythonhosted.org/packages/c4/7c/293f5e9311664af5f54ca46dcb2118fc1b4e551eec161f74c050f17cd991/Cython-3.0.0a10-py2.py3-none-any.whl
+                sha256: 9f2f7198a2c7db2d5118dffaaaab357927f689bbcb517fb37083724500a02a0c
