@@ -305,6 +305,7 @@ modules:
         buildsystem: simple
         build-commands:
           - cd cli && python3 setup.py install --prefix=${FLATPAK_DEST}
+        sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
             tag: v2.6
