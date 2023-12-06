@@ -2,7 +2,7 @@
 app-id: org.onionshare.OnionShare
 command: onionshare
 runtime: org.kde.Platform
-runtime-version: "6.5"
+runtime-version: "5.15-23.08"
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
