@@ -145,7 +145,10 @@ modules:
         buildsystem: simple
         build-commands:
           - rm cli/pyproject.toml
-          - cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps .
+          - |
+            export PIP_NO_INDEX=1
+            export PIP_FIND_LINKS="file://${PWD}"
+            cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-index --find-links="${PIP_FIND_LINKS}" .
         sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
