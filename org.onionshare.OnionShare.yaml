@@ -2,11 +2,11 @@
 app-id: org.onionshare.OnionShare
 command: onionshare
 runtime: org.kde.Platform
-runtime-version: "6.8"
+runtime-version: "6.10"
 sdk: org.kde.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
-  - org.freedesktop.Sdk.Extension.llvm19
+  - org.freedesktop.Sdk.Extension.llvm22
 separate-locales: false
 finish-args:
   - "--device=dri"
@@ -80,7 +80,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake.git
-        tag: v2.10.1
+        tag: v2.13.1
       - snowflake/go.mod.yml
   - name: obfs4proxy
     buildsystem: simple
@@ -116,8 +116,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: 5047e1ded12d9aac4eb858f7634a627714dd58ce99053d517691a4b304a66d10
-        url: https://dist.torproject.org/tor-0.4.8.14.tar.gz
+        sha256: bd75ba7fd68f607c7806fcf70156a300aa926e9ad69a5e56a8e6414f5227e833
+        url: https://dist.torproject.org/tor-0.4.9.9.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -131,24 +131,26 @@ modules:
       - easy-install.pth
     build-commands:
       - rm desktop/pyproject.toml
-      - cd desktop && pip3 install --prefix=${FLATPAK_DEST} .
+      - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} setuptools wheel
+      - export PIP_NO_INDEX=1 PIP_FIND_LINKS="file://${PWD}" && cd desktop && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-build-isolation --no-index --find-links="${PIP_FIND_LINKS}" .
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/org.onionshare.OnionShare.svg
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
       - type: git
         url: https://github.com/onionshare/onionshare.git
-        tag: v2.6.3
+        tag: v2.6.4
     modules:
       - onionshare-desktop.yaml
       - name: onionshare-cli
         buildsystem: simple
         build-commands:
           - rm cli/pyproject.toml
-          - cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps .
+          - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} setuptools wheel
+          - export PIP_NO_INDEX=1 PIP_FIND_LINKS="file://${PWD}" && cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-build-isolation --no-index --find-links="${PIP_FIND_LINKS}" .
         sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
-            tag: v2.6.3
+            tag: v2.6.4
         modules:
           - onionshare-cli.yaml
