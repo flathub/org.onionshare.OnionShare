@@ -10,6 +10,9 @@ build-commands:
     werkzeug wheel wsproto zope-event zope-interface
 sources:
   - type: file
+    url: https://files.pythonhosted.org/packages/50/36/e0703d73bc9f89b95014173c9c7754816630a3282f2727637de5b076e5e4/poetry_core-2.4.1-py3-none-any.whl
+    sha256: acf06f9537cd2625bdaec926d95d90b557ba15353bc71d27a3a8a441042b5316
+  - type: file
     url: https://files.pythonhosted.org/packages/d4/05/480d439b482edf59b786bc19b474d990c61942e372f5de3dc14acac8154d/backports_zstd-1.5.0.tar.gz
     sha256: a5e622a82eb183b4fbe18032755ce0a15fa9a82f2adb9b621620b91247aaedb7
   - type: file
