@@ -131,7 +131,8 @@ modules:
       - easy-install.pth
     build-commands:
       - rm desktop/pyproject.toml
-      - cd desktop && pip3 install --prefix=${FLATPAK_DEST} .
+      - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} setuptools wheel
+      - export PIP_NO_INDEX=1 PIP_FIND_LINKS="file://${PWD}" && cd desktop && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-build-isolation --no-index --find-links="${PIP_FIND_LINKS}" .
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.appdata.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.appdata.xml
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/org.onionshare.OnionShare.svg
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
@@ -145,10 +146,8 @@ modules:
         buildsystem: simple
         build-commands:
           - rm cli/pyproject.toml
-          - |
-            export PIP_NO_INDEX=1
-            export PIP_FIND_LINKS="file://${PWD}"
-            cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-index --find-links="${PIP_FIND_LINKS}" .
+          - pip3 install --no-index --find-links="file://${PWD}" --prefix=${FLATPAK_DEST} setuptools wheel
+          - export PIP_NO_INDEX=1 PIP_FIND_LINKS="file://${PWD}" && cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-build-isolation --no-index --find-links="${PIP_FIND_LINKS}" .
         sources:
           - type: git
             url: https://github.com/onionshare/onionshare.git
