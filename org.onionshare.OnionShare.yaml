@@ -119,17 +119,15 @@ modules:
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/org.onionshare.OnionShare.svg
       - cd desktop && install -D -m0644 org.onionshare.OnionShare.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
     sources:
-      - type: dir
-        path: ..
       - type: file
         url: https://files.pythonhosted.org/packages/94/b8/f1f62a5e3c0ad2ff1d189590bfa4c46b4f3b6e49cef6f26c6ee4e575394d/setuptools-80.10.2-py3-none-any.whl
         sha256: 95b30ddfb717250edb492926c92b5221f7ef3fbcc2b07579bcd4a27da21d0173
       - type: file
         url: https://files.pythonhosted.org/packages/fa/7f/4c07234086edbce4a0a446209dc0cb08a19bb206a3ea53b2f56a403f983b/wheel-0.41.3-py3-none-any.whl
         sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
-      # - type: git
-      #   url: https://github.com/onionshare/onionshare.git
-      #   tag: v2.6.3
+      - type: git
+        url: https://github.com/onionshare/onionshare.git
+        tag: v2.7.1
     modules:
       - onionshare-desktop.yaml
       - name: onionshare-cli
@@ -138,16 +136,14 @@ modules:
           - rm cli/pyproject.toml
           - export PIP_NO_INDEX=1 PIP_FIND_LINKS="file://${PWD}" && cd cli && pip3 install --prefix=${FLATPAK_DEST} --no-deps --use-pep517 --no-index --find-links="${PIP_FIND_LINKS}" .
         sources:
-          - type: dir
-            path: ..
           - type: file
             url: https://files.pythonhosted.org/packages/94/b8/f1f62a5e3c0ad2ff1d189590bfa4c46b4f3b6e49cef6f26c6ee4e575394d/setuptools-80.10.2-py3-none-any.whl
             sha256: 95b30ddfb717250edb492926c92b5221f7ef3fbcc2b07579bcd4a27da21d0173
           - type: file
             url: https://files.pythonhosted.org/packages/fa/7f/4c07234086edbce4a0a446209dc0cb08a19bb206a3ea53b2f56a403f983b/wheel-0.41.3-py3-none-any.whl
             sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
-        #   - type: git
-        #     url: https://github.com/onionshare/onionshare.git
-        #     tag: v2.6.3
+          - type: git
+            url: https://github.com/onionshare/onionshare.git
+            tag: v2.7.1
         modules:
           - onionshare-cli.yaml
