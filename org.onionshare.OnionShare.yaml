@@ -2,10 +2,10 @@
 app-id: org.onionshare.OnionShare
 command: onionshare
 runtime: org.kde.Platform
-runtime-version: "6.10"
+runtime-version: "6.11"
 sdk: org.kde.Sdk
 base: io.qt.PySide.BaseApp
-base-version: "6.10"
+base-version: "6.11"
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.golang
   - org.freedesktop.Sdk.Extension.llvm22
@@ -48,7 +48,7 @@ modules:
     sources:
       - type: git
         url: https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake.git
-        tag: v2.14.1
+        tag: v2.15.3
       - snowflake/go.mod.yml
   - name: obfs4proxy
     buildsystem: simple
@@ -99,8 +99,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: 182449ac1c8ff43278da27b69b02040e11d03d0327db6d9126e4190ec6235e4a
-        url: https://dist.torproject.org/tor-0.4.9.14.tar.gz
+        sha256: 1911f5b216a6814ed143a08bbcff1c6dc96d2ca3b505df9a21876080a92963f3
+        url: https://dist.torproject.org/tor-0.4.9.15.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -127,7 +127,7 @@ modules:
         sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
       - type: git
         url: https://github.com/onionshare/onionshare.git
-        tag: v2.7
+        tag: v2.7.1
     modules:
       - onionshare-desktop.yaml
       - name: onionshare-cli
@@ -144,6 +144,6 @@ modules:
             sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
           - type: git
             url: https://github.com/onionshare/onionshare.git
-            tag: v2.7
+            tag: v2.7.1
         modules:
           - onionshare-cli.yaml
