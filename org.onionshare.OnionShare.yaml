@@ -99,8 +99,8 @@ modules:
     buildsystem: autotools
     sources:
       - type: archive
-        sha256: 1911f5b216a6814ed143a08bbcff1c6dc96d2ca3b505df9a21876080a92963f3
-        url: https://dist.torproject.org/tor-0.4.9.15.tar.gz
+        sha256: 6180e193152f4525bdca5475168419b2a2035b963c3c60162a187f86e6160e48
+        url: https://dist.torproject.org/tor-0.4.9.16.tar.gz
     modules:
       - name: libevent
         buildsystem: autotools
@@ -127,7 +127,7 @@ modules:
         sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
       - type: git
         url: https://github.com/onionshare/onionshare.git
-        tag: v2.7.1
+        tag: v2.7.2
     modules:
       - onionshare-desktop.yaml
       - name: onionshare-cli
@@ -144,6 +144,6 @@ modules:
             sha256: 488609bc63a29322326e05560731bf7bfea8e48ad646e1f5e40d366607de0942
           - type: git
             url: https://github.com/onionshare/onionshare.git
-            tag: v2.7.1
+            tag: v2.7.2
         modules:
           - onionshare-cli.yaml
